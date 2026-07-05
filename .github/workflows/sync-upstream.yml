@@ -1,0 +1,39 @@
+name: Sync Upstream
+
+on:
+  schedule:
+    # 每月1号 UTC 时间 02:00 执行（北京时间 10:00）
+    - cron: "0 2 1 * *"
+  workflow_dispatch: # 也支持手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/star7th/jisuxiang.git
+          git remote -v
+
+      - name: Fetch upstream
+        run: |
+          git fetch upstream --prune --tags
+
+      - name: Merge upstream/master into current branch
+        run: |
+          echo "当前分支: $(git branch --show-current)"
+          git merge upstream/master --no-edit --allow-unrelated-histories
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push origin HEAD:$(git branch --show-current)
