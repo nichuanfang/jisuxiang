@@ -55,9 +55,13 @@ export default function RootLayout({
           }}
         />
         {/* 预加载字体和图标资源 */}
+
+        {/* 修复404 */}
+        {/*
         <link rel="preload" href="/_next/static/media/fa-brands-400.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <link rel="preload" href="/_next/static/media/fa-solid-900.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <link rel="preload" href="/_next/static/media/fa-regular-400.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+        */}
       </head>
       <body>
         <LanguageProvider>
